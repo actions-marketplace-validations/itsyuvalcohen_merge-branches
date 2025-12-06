@@ -1,0 +1,26 @@
+name: 'test-main'
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+        with:
+          target_branch: develop
+          message: Merge main to develop
+          github_token: ${{ secrets.TOKEN }}
+          create_pull_request: true
+          add_assignee: false
+      - uses: ./
+        with:
+          target_branch_pattern: release/.*
+          message: Merge main to release branches
+          github_token: ${{ secrets.TOKEN }}
+          create_pull_request: true
+          add_assignee: false
+
